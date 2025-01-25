@@ -4,51 +4,16 @@ class ChatInterface {
     this.chatHistory = document.getElementById('chat-history');
     this.chatForm = document.getElementById('chat-form');
     this.chatInput = document.getElementById('chat-input');
-    this.apiKey = null;
-    
-    this.initializeApiKey().then(() => {
-      this.setupEventListeners();
-      this.loadKnowledgeBase();
-      this.addMessage('bot', 'Hi! Ask me anything about Bernat.');
-    }).catch(error => {
-      console.error('API key initialization failed:', error);
-      // Redirect to setup if no API key found
-      if (error.message.includes('No API key found')) {
-        window.location.href = 'setup.html';
-      } else {
-        this.addMessage('bot', 'Chat service is currently unavailable. Please try again later.');
-      }
-    });
-  }
-
-  async initializeApiKey() {
-    try {
-      const encryptedData = JSON.parse(localStorage.getItem('encryptedApiKey'));
-      const keyData = JSON.parse(localStorage.getItem('encryptionKey'));
-      
-      if (!encryptedData || !keyData) {
-        throw new Error('No API key found. Please visit setup.html to configure your API key.');
-      }
-
-      const key = await crypto.subtle.importKey(
-        "jwk",
-        keyData,
-        { name: "AES-GCM" },
-        true,
-        ["decrypt"]
-      );
-
-      const decrypted = await crypto.subtle.decrypt(
-        { name: "AES-GCM", iv: new Uint8Array(encryptedData.iv) },
-        key,
-        new Uint8Array(encryptedData.data)
-      );
-
-      this.apiKey = new TextDecoder().decode(decrypted);
-    } catch (error) {
-      console.error('API key decryption failed:', error);
-      throw error;
+    this.apiKey = 'sk-5cfc45370d6f4516b7f554ca678fdb8a';
+    if (!this.apiKey.startsWith('sk-')) {
+      console.error('Invalid API key format');
+      this.addMessage('bot', 'Invalid API key configuration. Please check your settings.');
+      return;
     }
+    
+    this.setupEventListeners();
+    this.loadKnowledgeBase();
+    this.addMessage('bot', 'Hi! Ask me anything about Bernat.');
   }
 
   async loadKnowledgeBase() {
@@ -82,7 +47,7 @@ class ChatInterface {
 
     // Fallback to DeepSeek API
     try {
-      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,11 +55,18 @@ class ChatInterface {
         },
         body: JSON.stringify({
           model: "deepseek-chat",
-          messages: [{
-            role: "user",
-            content: message
-          }],
-          temperature: 0.7
+          messages: [
+            {
+              role: "system",
+              content: "You are a helpful assistant that answers questions about Bernat Ferragut."
+            },
+            {
+              role: "user",
+              content: message
+            }
+          ],
+          temperature: 0.7,
+          stream: false
         })
       });
 
@@ -106,6 +78,13 @@ class ChatInterface {
       return data.choices[0].message.content || "I'm not sure how to respond to that.";
     } catch (error) {
       console.error('API Error:', error);
+      if (error.message.includes('401')) {
+        return "Authentication failed. Please check your API key.";
+      } else if (error.message.includes('404')) {
+        return "API endpoint not found. Please check the API URL.";
+      } else if (error.message.includes('network')) {
+        return "Network error. Please check your internet connection.";
+      }
       return "I'm having trouble connecting to the chat service. Please try again later.";
     }
   }

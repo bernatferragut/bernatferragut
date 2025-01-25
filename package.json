@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "deploy": "git push origin main"
+  },
+  "dependencies": {
+    "openai": "^4.80.1"
   }
 }
