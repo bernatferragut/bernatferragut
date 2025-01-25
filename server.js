@@ -28,7 +28,7 @@ app.post('/api/chat', async (req, res) => {
       stream: false
     }, {
       headers: {
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY?.trim()}`,
         'Content-Type': 'application/json'
       },
       timeout: 10000 // 10 second timeout
