@@ -2,6 +2,6 @@
   "name": "personal-website",
   "version": "1.0.0",
   "scripts": {
-    "deploy": "surge ./ --domain bernatferragut.surge.sh"
+    "deploy": "git push origin main"
   }
 }
