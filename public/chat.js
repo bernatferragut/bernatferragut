@@ -4,12 +4,7 @@ class ChatInterface {
     this.chatHistory = document.getElementById('chat-history');
     this.chatForm = document.getElementById('chat-form');
     this.chatInput = document.getElementById('chat-input');
-    this.apiKey = 'sk-5cfc45370d6f4516b7f554ca678fdb8a';
-    if (!this.apiKey.startsWith('sk-')) {
-      console.error('Invalid API key format');
-      this.addMessage('bot', 'Invalid API key configuration. Please check your settings.');
-      return;
-    }
+    // API key is handled server-side
     
     this.setupEventListeners();
     this.loadKnowledgeBase();
@@ -47,14 +42,12 @@ class ChatInterface {
 
     // Fallback to DeepSeek API
     try {
-      const response = await fetch('https://api.deepseek.com/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: "deepseek-chat",
           messages: [
             {
               role: "system",
@@ -64,9 +57,7 @@ class ChatInterface {
               role: "user",
               content: message
             }
-          ],
-          temperature: 0.7,
-          stream: false
+          ]
         })
       });
 
