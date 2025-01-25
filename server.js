@@ -37,10 +37,18 @@ app.post('/api/chat', async (req, res) => {
     console.log(`API request completed in ${Date.now() - startTime}ms`);
     res.json(response.data);
   } catch (error) {
-    console.error('API Error:', {
+    console.error('Detailed API Error:', {
       message: error.message,
       code: error.code,
-      response: error.response?.data,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      headers: error.response?.headers,
+      data: error.response?.data,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        headers: error.config?.headers
+      },
       stack: error.stack
     });
     res.status(500).json({
