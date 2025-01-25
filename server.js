@@ -13,7 +13,9 @@ app.use(express.json());
 
 // API endpoint for chat
 app.post('/api/chat', async (req, res) => {
+  console.log('Received chat request');
   try {
+    const startTime = Date.now();
     const response = await axios.post('https://api.deepseek.com/chat/completions', {
       model: "deepseek-chat",
       messages: req.body.messages,
@@ -23,13 +25,23 @@ app.post('/api/chat', async (req, res) => {
       headers: {
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
         'Content-Type': 'application/json'
-      }
+      },
+      timeout: 10000 // 10 second timeout
     });
 
+    console.log(`API request completed in ${Date.now() - startTime}ms`);
     res.json(response.data);
   } catch (error) {
-    console.error('API Error:', error);
-    res.status(500).json({ error: 'Failed to process request' });
+    console.error('API Error:', {
+      message: error.message,
+      code: error.code,
+      response: error.response?.data,
+      stack: error.stack
+    });
+    res.status(500).json({
+      error: 'Failed to process request',
+      details: error.message
+    });
   }
 });
 
