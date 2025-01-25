@@ -4,7 +4,12 @@ import axios from 'axios';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Load environment variables
 dotenv.config();
+console.log('Environment variables:', {
+  DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY ? '***' : 'Not set',
+  NODE_ENV: process.env.NODE_ENV
+});
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
