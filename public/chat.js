@@ -4,7 +4,6 @@ class ChatInterface {
     this.chatHistory = document.getElementById('chat-history');
     this.chatForm = document.getElementById('chat-form');
     this.chatInput = document.getElementById('chat-input');
-    // API key is handled server-side
     
     this.setupEventListeners();
     this.loadKnowledgeBase();
@@ -40,7 +39,7 @@ class ChatInterface {
     const localResponse = this.checkLocalKnowledge(message);
     if (localResponse) return localResponse;
 
-    // Fallback to DeepSeek API
+    // Fallback to serverless function
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -69,13 +68,6 @@ class ChatInterface {
       return data.choices[0].message.content || "I'm not sure how to respond to that.";
     } catch (error) {
       console.error('API Error:', error);
-      if (error.message.includes('401')) {
-        return "Authentication failed. Please check your API key.";
-      } else if (error.message.includes('404')) {
-        return "API endpoint not found. Please check the API URL.";
-      } else if (error.message.includes('network')) {
-        return "Network error. Please check your internet connection.";
-      }
       return "I'm having trouble connecting to the chat service. Please try again later.";
     }
   }
