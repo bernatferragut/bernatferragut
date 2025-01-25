@@ -50,8 +50,13 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Serve static files from public directory with correct path
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from public directory with detailed logging
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, path) => {
+    console.log(`Serving static file from: ${path}`);
+    console.log(`Current directory: ${__dirname}`);
+  }
+}));
 
 // Fallback route for SPA
 app.get('*', (req, res) => {
