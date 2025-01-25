@@ -59,6 +59,13 @@ app.get('/api/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+console.log('Available routes:');
+app._router.stack.forEach((r) => {
+  if (r.route && r.route.path) {
+    console.log(`- ${r.route.path}`);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log('Environment:', process.env.NODE_ENV);
