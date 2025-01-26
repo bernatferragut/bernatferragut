@@ -14,7 +14,8 @@ class ChatInterface {
     
     // Show initial greeting after configs load
     this.loadConfigurations().then(() => {
-      this.addMessage('bot', this.personalityConfig.personality_profile.initial_greeting);
+      const greeting = this.personalityConfig.personality_profile.initial_greeting.replace('Bernat thinks that... ', '');
+      this.addMessage('bot', greeting);
     });
   }
 
@@ -26,7 +27,46 @@ class ChatInterface {
       ]);
       
       this.personalityConfig = await personalityRes.json();
-      this.safeguardConfig = await safeguardRes.json();
+      this.safeguardConfig = await safeguardRes.json() || {
+        prohibited_content: {
+          words: {
+            english: [],
+            spanish: [],
+            catalan: []
+          },
+          phrases: [],
+          patterns: []
+        },
+        response_handling: {
+          abusive_content: {
+            action: 'warn',
+            message: 'Please refrain from using inappropriate language'
+          },
+          sensitive_content: {
+            action: 'redirect',
+            message: 'This topic may be sensitive',
+            resources: []
+          }
+        },
+        safety_protocols: {
+          content_moderation: {
+            response_strategy: {
+              initial_warning: 'Please be respectful',
+              secondary_response: 'This is your second warning',
+              final_action: 'Conversation ended due to policy violations',
+              escalation_path: {
+                threshold: 3
+              }
+            }
+          },
+          accessibility_features: {
+            cognitive_load_management: {
+              chunking: true,
+              visual_breaks: '\n---\n'
+            }
+          }
+        }
+      };
       
       // Build system message from personality profile
       const profile = this.personalityConfig.personality_profile;
@@ -43,11 +83,16 @@ class ChatInterface {
   }
 
   checkProhibitedContent(message) {
-    const safeguards = this.safeguardConfig.prohibited_content;
+    const safeguards = this.safeguardConfig?.prohibited_content || {};
+    const words = safeguards.words || {
+      english: [],
+      spanish: [],
+      catalan: []
+    };
     
     // Check words in all languages
-    for (const lang of Object.keys(safeguards.words)) {
-      if (safeguards.words[lang].some(word =>
+    for (const lang of Object.keys(words)) {
+      if (Array.isArray(words[lang]) && words[lang].some(word =>
         new RegExp(`\\b${word}\\b`, 'i').test(message)
       )) {
         return 'abusive_content';
@@ -55,14 +100,16 @@ class ChatInterface {
     }
     
     // Check phrases
-    if (safeguards.phrases.some(phrase =>
+    const phrases = safeguards.phrases || [];
+    if (Array.isArray(phrases) && phrases.some(phrase =>
       message.toLowerCase().includes(phrase.toLowerCase())
     )) {
       return 'sensitive_content';
     }
     
     // Check patterns
-    if (safeguards.patterns.some(pattern =>
+    const patterns = safeguards.patterns || [];
+    if (Array.isArray(patterns) && patterns.some(pattern =>
       new RegExp(pattern, 'i').test(message)
     )) {
       return 'sensitive_content';
@@ -89,7 +136,7 @@ class ChatInterface {
     
     // Build response structure
     let responseParts = [
-      format.prefix, // Updated prefix
+      '', // No prefix
       content, // Core content
       culturalRef, // Cultural reference
       this.getReflectionQuestion() // Reflection question
@@ -202,9 +249,9 @@ class ChatInterface {
 
     // First check local knowledge base
     const localResponse = this.checkLocalKnowledge(message);
-    if (localResponse) return this.formatResponse(localResponse);
+    if (localResponse) return localResponse;
 
-    // Fallback to serverless function
+    // Get DeepSeek response
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -230,19 +277,36 @@ class ChatInterface {
       }
 
       const responseData = await response.json();
-      return this.formatResponse(responseData.choices[0].message.content ||
-        "I'm not sure how to respond to that.");
-
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data.choices[0].message.content || "I'm not sure how to respond to that.";
+      return responseData.choices[0].message.content;
     } catch (error) {
       console.error('API Error:', error);
       return "I'm having trouble connecting to the chat service. Please try again later.";
     }
+  }
+
+  augmentResponse(rawResponse, message) {
+    // Apply personality tone
+    let response = rawResponse;
+    const profile = this.personalityConfig.personality_profile;
+    
+    // Add tone indicator
+    if (profile.response_mechanics.tone === "friendly") {
+      response = `😊 ${response}`;
+    }
+    
+    // Add cultural reference
+    const culturalRef = this.getCulturalReference();
+    if (culturalRef) {
+      response += `\n\n${culturalRef}`;
+    }
+    
+    // Add knowledge base augmentation
+    const knowledge = this.checkLocalKnowledge(message);
+    if (knowledge) {
+      response += `\n\nAdditional Information:\n${knowledge}`;
+    }
+    
+    return this.formatResponse(response);
   }
 
   checkLocalKnowledge(message) {
@@ -261,6 +325,12 @@ class ChatInterface {
       message.toLowerCase().includes(key.toLowerCase())
     );
     if (factMatch) return factMatch[1];
+
+    // Check triggers from knowledge base
+    const triggerMatch = Object.entries(this.knowledgeBase.triggers || {}).find(([key, value]) =>
+      message.toLowerCase().includes(key.toLowerCase())
+    );
+    if (triggerMatch) return triggerMatch[1];
 
     return null;
   }
@@ -283,7 +353,7 @@ class ChatInterface {
       // Create actual response
       const messageElement = document.createElement('div');
       messageElement.classList.add('chat-message', role);
-      messageElement.innerHTML = `<strong>Bernat thinks that...</strong> ${content}`;
+      messageElement.innerHTML = content;
       this.chatHistory.appendChild(messageElement);
     } else {
       // User message remains unchanged
