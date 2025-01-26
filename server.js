@@ -1,92 +1,93 @@
-import dotenv from 'dotenv';
 import express from 'express';
-import axios from 'axios';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs/promises';
 
-// Load environment variables
-dotenv.config();
-console.log('Environment variables:', {
-  DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY ? '***' : 'Not set',
-  NODE_ENV: process.env.NODE_ENV
-});
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
+class ChatInterface {
+  constructor() {
+    this.knowledgeBase = null;
+  }
+
+  async loadKnowledgeBase() {
+    try {
+      const data = await fs.readFile(
+        path.join(__dirname, 'public/assets/data/knowledge-base.json')
+      );
+      this.knowledgeBase = JSON.parse(data);
+    } catch (error) {
+      console.error('Error loading knowledge base:', error);
+      this.knowledgeBase = { facts: {}, faqs: [] };
+    }
+  }
+
+  checkLocalKnowledge(message) {
+    if (!this.knowledgeBase || !this.knowledgeBase.faqs || !this.knowledgeBase.facts) {
+      return null;
+    }
+
+    // Check FAQs
+    const faqMatch = this.knowledgeBase.faqs.find(faq =>
+      faq.question.toLowerCase().includes(message.toLowerCase())
+    );
+    if (faqMatch) return faqMatch.answer;
+
+    // Check facts
+    const factMatch = Object.entries(this.knowledgeBase.facts).find(([key, value]) =>
+      message.toLowerCase().includes(key.toLowerCase())
+    );
+    if (factMatch) return factMatch[1];
+
+    return null;
+  }
+}
 const app = express();
-app.use(express.json());
+const port = 3001;
+const chatInterface = new ChatInterface();
+
+// Initialize knowledge base
+await chatInterface.loadKnowledgeBase();
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // API endpoint for chat
-app.post('/api/chat', async (req, res) => {
-  console.log('Received chat request');
+app.post('/api/chat', express.json(), async (req, res) => {
   try {
-    const startTime = Date.now();
-    const response = await axios.post('https://api.deepseek.com/chat/completions', {
-      model: "deepseek-chat",
-      messages: req.body.messages,
-      temperature: 0.7,
-      stream: false
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY?.trim().replace(/[^a-zA-Z0-9-]/g, '')}`,
-        'Content-Type': 'application/json'
-      },
-      timeout: 10000 // 10 second timeout
-    });
+    const { messages } = req.body;
+    
+    // Check local knowledge base first
+    const localResponse = this.checkLocalKnowledge(messages[messages.length - 1].content);
+    if (localResponse) {
+      return res.json({
+        choices: [{
+          message: {
+            content: localResponse
+          }
+        }]
+      });
+    }
 
-    console.log(`API request completed in ${Date.now() - startTime}ms`);
-    res.json(response.data);
+    // Fallback to generic response
+    const response = {
+      choices: [{
+        message: {
+          content: "Let me think about that and get back to you with a more complete answer."
+        }
+      }]
+    };
+    
+    res.json(response);
   } catch (error) {
-    console.error('Detailed API Error:', {
-      message: error.message,
-      code: error.code,
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      headers: error.response?.headers,
-      data: error.response?.data,
-      config: {
-        url: error.config?.url,
-        method: error.config?.method,
-        headers: error.config?.headers
-      },
-      stack: error.stack
-    });
-    res.status(500).json({
-      error: 'Failed to process request',
-      details: error.message
-    });
+    console.error('API Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Serve static files from public directory with detailed logging
-app.use(express.static(path.join(__dirname, 'public'), {
-  setHeaders: (res, path) => {
-    console.log(`Serving static file from: ${path}`);
-    console.log(`Current directory: ${__dirname}`);
-  }
-}));
-
-// Fallback route for SPA
-app.get('*', (req, res) => {
-  console.log(`Fallback route: ${req.path}`);
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date() });
-});
-
-const PORT = process.env.PORT || 3001;
-console.log('Available routes:');
-app._router.stack.forEach((r) => {
-  if (r.route && r.route.path) {
-    console.log(`- ${r.route.path}`);
-  }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log('Environment:', process.env.NODE_ENV);
-  console.log('API Base URL:', process.env.API_BASE_URL || 'https://api.deepseek.com');
+// Start server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
