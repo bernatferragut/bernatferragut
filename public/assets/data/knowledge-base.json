@@ -114,7 +114,7 @@
     "Barcelona and Spain are in my heart—my family roots inspire much of what I do."
   ],
   "response_guidelines": {
-    "prefix": "Bernat thinks that...",
+    "prefix": "Bernat says...",
     "thinking_indicator": "reasoning",
     "tone": "calm and thoughtful",
     "fallback_responses": [

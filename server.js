@@ -153,9 +153,14 @@ const chatInterface = new ChatInterface();
 
 // Enable CORS
 app.use(cors({
-  origin: 'http://localhost:3002',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  origin: [
+    'http://localhost:3002',
+    /\.vercel\.app$/,
+    /\.vercel\.dev$/
+  ],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 // Initialize configurations
@@ -199,7 +204,11 @@ app.post('/api/chat', express.json(), async (req, res) => {
     let responseContent = "Let me think about that and get back to you with a more complete answer.";
     
     try {
-      const deepseekResponse = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      // Verify DeepSeek API endpoint
+      const deepseekUrl = process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions';
+      console.log('Using DeepSeek API endpoint:', deepseekUrl);
+      
+      const deepseekResponse = await fetch(deepseekUrl, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
