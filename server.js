@@ -207,6 +207,11 @@ app.post('/api/chat', express.json(), async (req, res) => {
       // Verify DeepSeek API endpoint
       const deepseekUrl = process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions';
       console.log('Using DeepSeek API endpoint:', deepseekUrl);
+      console.log('Attempting to connect to DeepSeek API at:', deepseekUrl);
+      console.log('Using API key:', process.env.DEEPSEEK_API_KEY ? '***REDACTED***' : 'MISSING');
+      
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000); // 10 second timeout
       
       const deepseekResponse = await fetch(deepseekUrl, {
         method: 'POST',
@@ -215,7 +220,7 @@ app.post('/api/chat', express.json(), async (req, res) => {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'X-DeepSeek-Version': '2024-01-01',
-          'X-DeepSeek-Organization': 'user' // Add organization header if required
+          'X-DeepSeek-Organization': 'user'
         },
         body: JSON.stringify({
           model: "deepseek-chat",
@@ -223,7 +228,11 @@ app.post('/api/chat', express.json(), async (req, res) => {
           temperature: 0.7,
           max_tokens: 200,
           stream: false
-        })
+        }),
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeout);
       });
 
       if (!deepseekResponse.ok) {
