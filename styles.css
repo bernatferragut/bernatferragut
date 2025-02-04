@@ -93,14 +93,14 @@ body {
     font-family: 'IBM Plex Mono', monospace;
     font-size: clamp(1em, 2.5vw, 2em);
     font-weight: 300;
-    color: lightyellow; /* Set text color to light yellow */
+    color: darkgrey;/* Set text color to light yellow */
     text-align: center;
     cursor: pointer;
     margin-top: var(--spacing);
 }
 
 #logo a {
-    color: inherit; /* Ensures link inherits the yellow color */
+    color: lightyellow; /* Ensures link inherits the yellow color */
     text-decoration: none;
 }
 
