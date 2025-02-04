@@ -1,0 +1,83 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    min-height: 80vh;
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#logo {
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+a {
+    font-family: IBM Plex Mono, monospace;
+    font-size: 1em; /*fallback*/
+    font-size: 1.5vw;
+    font-weight: 100;
+    color:rgba(245, 245, 245, 0.368);
+    text-decoration: none;
+}
+
+
+#quote {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height:auto;
+}
+
+#day {
+    font-family: IBM Plex Mono, monospace;
+    font-size: 1em; /*fallback*/
+    font-size: 2vw;
+    font-weight: 300;
+    color: rgba(245, 245, 245, 0.368);
+    padding-bottom: 4%;
+}
+
+#day2 {
+    font-family: IBM Plex Mono, monospace;
+    font-size: 1em; /*fallback*/
+    font-size: 2vw;
+    font-weight: 130000;
+    color:darkgrey;
+    padding-bottom: 4%;
+}
+
+#lovedb {
+    font-family: IBM Plex Mono, monospace;
+    font-size: 2em; /*fallback*/
+    font-size: 4vw;
+    font-weight: 300;
+    color: lightyellow;
+}
+
+#hash {
+    padding-top: 4%;
+    font-family: IBM Plex Mono, monospace;
+    font-size: 1em; /*fallback*/
+    font-size: 2vw;
+    font-weight: 100;
+    color:rgba(245, 245, 245, 0.368);
+}
+
+#hash2 {
+    padding-top: 4%;
+    font-family: IBM Plex Mono, monospace;
+    font-size: 1em; /*fallback*/
+    font-size: 2vw;
+    font-weight: 300;
+    color:darkgrey;
+}
