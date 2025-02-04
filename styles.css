@@ -1,5 +1,5 @@
 :root {
-    --spacing: 5vh; /* Adjust this to control spacing */
+    --spacing: 3vh; /* Adjust this to control spacing */
 }
 
 * {
@@ -41,12 +41,12 @@ body {
 
 
 #day2 {
-    color: lightyellow;
+    color: lightcoral;
     font-weight: 500; /* Makes the number stand out */
 }
 
 .love-highlight {
-    color: lightyellow;
+    color: lightcoral;
     font-weight: 500;
 }
 /* Poem Text */
@@ -54,7 +54,7 @@ body {
     font-family: 'IBM Plex Mono', monospace;
     font-size: clamp(2em, 5vw, 4em);
     font-weight: 300;
-    color: lightyellow;
+    color: lightgoldenrodyellow;
     text-align: left; /* Aligns text to the left */
     max-width: 80vw; /* Keeps readability and avoids full-width stretching */
     line-height: 1.5; /* Improves readability */
@@ -80,8 +80,8 @@ body {
     font-family: 'IBM Plex Mono', monospace;
     font-size: clamp(1em, 2vw, 1.8em);
     font-weight: 300;
-    color: darkgrey;
-    overflow: hidden;
+    color: lightcoral;
+    overflow: hidden;   
     text-overflow: ellipsis; /* Prevents breaking */
     white-space: nowrap;
 }
@@ -100,7 +100,7 @@ body {
 }
 
 #logo a {
-    color: lightyellow; /* Ensures link inherits the yellow color */
+    color: lightgoldenrodyellow; /* Ensures link inherits the yellow color */
     text-decoration: none;
 }
 
