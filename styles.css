@@ -1,83 +1,106 @@
-
+:root {
+    --spacing: 5vh; /* Adjust this to control spacing */
+}
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-
 body {
-    min-height: 80vh;
+    min-height: 100vh;
     background: #000;
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 5%;
-    margin-right: 5%;
+    padding: 5%;
+    text-align: center;
 }
 
-#logo {
-    cursor: pointer;
-    margin-top: 10px;
+/* Main container for even vertical spacing */
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vw;
+    min-height: 60vh;
+    gap: var(--spacing); /* Controls vertical spacing */
 }
 
-a {
-    font-family: IBM Plex Mono, monospace;
-    font-size: 1em; /*fallback*/
-    font-size: 1.5vw;
-    font-weight: 100;
-    color:rgba(245, 245, 245, 0.368);
-    text-decoration: none;
-}
-
-
-#quote {
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-    height:auto;
-}
-
-#day {
-    font-family: IBM Plex Mono, monospace;
-    font-size: 1em; /*fallback*/
-    font-size: 2vw;
+/* Day Section */
+#day, #logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1em, 2.5vw, 2em); /* Ensures equal text size */
     font-weight: 300;
-    color: rgba(245, 245, 245, 0.368);
-    padding-bottom: 4%;
+    color: rgba(245, 245, 245, 0.7);
+    text-align: center;
 }
+
 
 #day2 {
-    font-family: IBM Plex Mono, monospace;
-    font-size: 1em; /*fallback*/
-    font-size: 2vw;
-    font-weight: 130000;
-    color:darkgrey;
-    padding-bottom: 4%;
+    color: lightyellow;
+    font-weight: 500; /* Makes the number stand out */
 }
 
+.love-highlight {
+    color: lightyellow;
+    font-weight: 500;
+}
+/* Poem Text */
 #lovedb {
-    font-family: IBM Plex Mono, monospace;
-    font-size: 2em; /*fallback*/
-    font-size: 4vw;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(2em, 5vw, 4em);
     font-weight: 300;
     color: lightyellow;
+    text-align: left; /* Aligns text to the left */
+    max-width: 80vw; /* Keeps readability and avoids full-width stretching */
+    line-height: 1.5; /* Improves readability */
 }
 
+/* Hash Section */
 #hash {
-    padding-top: 4%;
-    font-family: IBM Plex Mono, monospace;
-    font-size: 1em; /*fallback*/
-    font-size: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1em, 2vw, 2em);
     font-weight: 100;
-    color:rgba(245, 245, 245, 0.368);
+    color: rgba(245, 245, 245, 0.7);
+    text-align: center;
+    width: 100%;
+    white-space: nowrap; /* Prevents line breaks */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Truncates long text if needed */
 }
 
 #hash2 {
-    padding-top: 4%;
-    font-family: IBM Plex Mono, monospace;
-    font-size: 1em; /*fallback*/
-    font-size: 2vw;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1em, 2vw, 1.8em);
     font-weight: 300;
-    color:darkgrey;
+    color: darkgrey;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Prevents breaking */
+    white-space: nowrap;
 }
+
+
+/* Footer / Source Section */
+
+#logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1em, 2.5vw, 2em);
+    font-weight: 300;
+    color: lightyellow; /* Set text color to light yellow */
+    text-align: center;
+    cursor: pointer;
+    margin-top: var(--spacing);
+}
+
+#logo a {
+    color: inherit; /* Ensures link inherits the yellow color */
+    text-decoration: none;
+}
+
