@@ -104,3 +104,34 @@ body {
     text-decoration: none;
 }
 
+button {
+    background: none;
+    border: none;
+    color: darkgrey;
+    font-size: 1em;
+    cursor: pointer;
+    transition: color 0.3s;
+    vertical-align: middle;
+}
+
+button:hover {
+    color:  lightcoral; /* Light salmon color */
+}
+
+#day {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    gap: 0.5em;
+}
+
+
+.github-logo {
+    width: 30px; /* Double the size */
+    height: 30px; /* Double the size */
+    vertical-align: middle;
+    margin-left: 5px;
+    fill: lightgoldenrodyellow; /* Light goldenrod yellow color */
+    position: relative;
+    top: -3px; /* Adjust this value to align the logo vertically */
+}
