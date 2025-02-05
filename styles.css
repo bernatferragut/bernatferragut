@@ -112,10 +112,15 @@ button {
     cursor: pointer;
     transition: color 0.3s;
     vertical-align: middle;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    outline: none; /* Remove outline */
+    appearance: none; /* Remove default button styling */
+    -webkit-appearance: none; /* Remove default button styling for WebKit browsers */
 }
 
 button:hover {
-    color:  lightcoral; /* Light salmon color */
+    color: lightcoral; /* Light salmon color */
 }
 
 #day {
@@ -124,7 +129,6 @@ button:hover {
     justify-content: left;
     gap: 0.5em;
 }
-
 
 .github-logo {
     width: 30px; /* Double the size */
