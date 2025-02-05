@@ -42,7 +42,7 @@ body {
 
 #day2 {
     color: lightcoral;
-    font-weight: 500; /* Makes the number stand out */
+    font-weight: 800; /* Makes the number stand out */
 }
 
 .love-highlight {
@@ -52,7 +52,7 @@ body {
 /* Poem Text */
 #lovedb {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: clamp(2em, 5vw, 4em);
+    font-size: clamp(2em, 3.25vw, 4em);
     font-weight: 300;
     color: lightgoldenrodyellow;
     text-align: left; /* Aligns text to the left */
@@ -131,11 +131,11 @@ button:hover {
 }
 
 .github-logo {
-    width: 30px; /* Double the size */
-    height: 30px; /* Double the size */
+    width: 1.25em; /* Relative to the font size */
+    height: 1.25em; /* Relative to the font size */
     vertical-align: middle;
-    margin-left: 5px;
+    margin-left: 0.3em;
     fill: lightgoldenrodyellow; /* Light goldenrod yellow color */
     position: relative;
-    top: -3px; /* Adjust this value to align the logo vertically */
+    top: -0.1em; /* Adjust this value to align the logo vertically */
 }
