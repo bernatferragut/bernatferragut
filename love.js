@@ -2,7 +2,7 @@
 
 
 // Lover & Beloved DB
-export let loveDB = [
+export const loveDB = [
     "The Lover asked his Beloved if there remained in Him anything still to be loved. And the Beloved replied that he had still to love that by which his own love could be increased.",
     "Long and perilous are the paths by which the Lover seeks his Beloved. They are peopled by cares, sighs and tears. They are lit up by love.",
     "Many Lovers came together to love One only, their Beloved, who made them all to abound in love. And each declared his Beloved perfection, and his thoughts of Him were very pleasant, making him to suffer pain which brought delight.",
@@ -17,7 +17,7 @@ export let loveDB = [
     "Say, Fool of Love, which can be the better seen, the Beloved in the Lover, or the Lover in the Beloved ? The Lover answered, and said: By love can the Beloved be seen, and the Lover by sighs and tears, by grief and by labours.",
     "The Lover sought for one who should tell his Beloved how great trials he was enduring for love of Him, and how he was like to die.And he found his Beloved, who was reading in a book wherein were written all the griefs which love made him to suffer for his Beloved, and the graces which He gave him.",
     "Our Lady presented her Son to the Lover, that he might kiss His feet, and that he might write in his book concerning Our Lady’s virtues.",
-    "Say, thou bird that singest, hast thou placed thyself in the care of my Beloved, that He may[26] guard thee from indifference, and increase in thee thy love ? The bird replied: And who makes me to sing but the Lord of love, to whom not to love is to sin.",
+    "Say, thou bird that singest, hast thou placed thyself in the care of my Beloved, that He may guard thee from indifference, and increase in thee thy love ? The bird replied: And who makes me to sing but the Lord of love, to whom not to love is to sin.",
     "Between Hope and Fear, Love made her home.She lives on thought, and, when she is forgotten, dies.So unlike the pleasures of this world are her foundations.",
     "There was a contention between the eyes and the memory of the Lover, for the eyes said that it was better to see the Beloved than to remember Him.But Memory said that remembrance brings tears to the eyes, and makes the heart to burn with love.",
     "The Lover asked the Understanding and the Will which of them was the nearer to his Beloved.And the two ran, and the Understanding came nearer to the Beloved than did the Will.",
@@ -369,4 +369,4 @@ export let loveDB = [
     "Love heated and inflamed the Lover with remembrance of his Beloved; and the Beloved cooled his ardour, with sorrows and tears and forgetfulness of the delights of this world, and the[106] renunciation of vainglories.So his love grew, when he remembered wherefore he suffered grief and affliction, and the men of the world persecutions and trials.",
     "They asked the Lover this question: Wherein dies love ? The Lover answered: In the delights of this world. And whence has it life and sustenance ? In thoughts of the world to come. Wherefore they that had inquired of him prepared to renounce this world, that they might think the more deeply upon the next, and that their love might live and find nourishment.",
     "Say, O Fool, what is this world ? He answered:  It is the prison - house of those that love and serve my Beloved. And who is he that imprisons them ? He answered:  Conscience, love, fear, renunciation and contrition, and the companionship of wilful men. And who is he that frees them ? Mercy, pity and justice. And where are they then sent ? To eternal bliss, and the joyful company of true lovers, where they shall laud, bless and glorify the Beloved everlastingly, to whom be ever given praise, honour and glory throughout all the world.",
-]
+];
