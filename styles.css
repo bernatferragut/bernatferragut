@@ -57,7 +57,7 @@ body {
     font-weight: 800; /* Makes the number stand out */
 }
 
-button {
+button, .about-button {
     background: none;
     border: none;
     color: darkgrey;
@@ -70,9 +70,10 @@ button {
     outline: none; /* Remove outline */
     appearance: none; /* Remove default button styling */
     -webkit-appearance: none; /* Remove default button styling for WebKit browsers */
+    text-decoration: none; /* Remove underline from links */
 }
 
-button:hover {
+button:hover, .about-button:hover {
     color: lightcoral; /* Light salmon color */
 }
 
