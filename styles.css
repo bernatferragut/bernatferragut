@@ -144,8 +144,13 @@ button:hover, .about-button:hover {
 }
 
 #logo a {
-    color: lightgoldenrodyellow; /* Ensures link inherits the yellow color */
+    color: lightgoldenrodyellow; /* Default color */
     text-decoration: none;
+    transition: color 0.3s;
+}
+
+#logo a:hover {
+    color: lightcoral; /* Hover color */
 }
 
 .github-logo {
@@ -153,7 +158,27 @@ button:hover, .about-button:hover {
     height: 1.5em; /* Relative to the font size */
     vertical-align: middle;
     margin-left: 0.3em;
-    fill: lightgoldenrodyellow; /* Light goldenrod yellow color */
+    fill: lightgoldenrodyellow; /* Default color */
+    transition: fill 0.3s;
     position: relative;
     top: -0.1em; /* Adjust this value to align the logo vertically */
+}
+
+#logo a:hover .github-logo {
+    fill: lightcoral; /* Hover color */
+}
+
+/* Attention Symbol */
+.attention-symbol {
+    font-size: 120%; /* 20% bigger */
+    animation: colorChange 3s infinite alternate; /* Animation */
+}
+
+@keyframes colorChange {
+    0% {
+        color: lightgoldenrodyellow;
+    }
+    100% {
+        color: lightcoral;
+    }
 }
