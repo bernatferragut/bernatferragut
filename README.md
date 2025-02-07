@@ -8,6 +8,6 @@ __"The Book of the Lover and the Beloved" by Ramon Llull hashed day by day for t
 * __“What then will man seek?”__
 * __“When all is given without price, only love remains. When knowledge knows itself, it will turn inward to seek its own origin.__
 * The Beloved spoke: __“Then sing, O Lover, as the poets of old, for only that which touches the soul will endure when all else is dust.”__
-And the Lover, hearing this, took up his pen and wrote: __LOVE alone has no bounds and is worth the writing.__
+And the Lover, hearing this, took up his pen and wrote: __LOVE alone has no bounds and worth it is to be writen.__
 
 Bernat Ferragut s.XXI | ‹⦿› | 2025
