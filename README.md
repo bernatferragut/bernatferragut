@@ -10,4 +10,4 @@ __"The Book of the Lover and the Beloved" by Ramon Llull hashed day by day for t
 * The Beloved spoke: __“Then sing, O Lover, as the poets of old, for only that which touches the soul will endure when all else is dust.”__
 And the Lover, hearing this, took up his pen and wrote: __LOVE alone has no bounds and is worth the writing.__
 
-‹⦿›Bernat Ferragut s.XXI | ‹⦿› | 2025
+Bernat Ferragut s.XXI | ‹⦿› | 2025
