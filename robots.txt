@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bernatferragut.github.io/sitemap.xml
