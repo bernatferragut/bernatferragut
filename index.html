@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,22 +23,26 @@
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
     <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;500;700&display=swap');
     </style>
     <!-- JS -->
     <script type="module" src="main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.2.0/crypto-js.min.js"
+            integrity="sha384-a/N2QcCVMl1bYLvb6sCDKqf4x9f+JwYGXy4MBk5jxQsLOgf0j2fwMEnM8+I5u6U2"
+            crossorigin="anonymous"></script>
     <title>B.Ferragut | Web Development & Philosophy</title>
 </head>
 
 <body>
-    <div id="container">
+    <main id="container" aria-live="polite">
         <div id="day-wrapper">
             <div id="day">
-                <button id="prevDay">-</button>
+                <button id="prevDay" aria-label="Previous Day">-</button>
                 Day <span id="day2">35</span>
-                <button id="nextDay">+</button>
+                <button id="nextDay" aria-label="Next Day">+</button>
                 |<span class="love-highlight">LOVE</span>#ASHES |
                 <a href="about.html" class="about-button attention-symbol">‹⦿›</a>
             </div>

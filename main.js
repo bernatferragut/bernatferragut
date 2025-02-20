@@ -1,9 +1,10 @@
 // 1. Calculate the day number of the year
-var now = new Date();
-var start = new Date(now.getFullYear(), 0, 0);
-var diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-var oneDay = 1000 * 60 * 60 * 24;
-var dayNumber = Math.floor(diff / oneDay); // Gets the correct day number
+const now = new Date();
+const start = new Date(now.getFullYear(), 0, 0);
+const diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+const oneDay = 1000 * 60 * 60 * 24;
+let dayNumber = Math.floor(diff / oneDay);
+dayNumber = Math.max(1, Math.min(dayNumber, 366)); // Clamp to valid range 1-366
 
 // 2. Import Libraries
 import { loveDB } from "./love.js";
@@ -13,7 +14,11 @@ import { sha256 } from "./sha256.js";
 let day = document.getElementById("day2");
 day.innerHTML = dayNumber; // Use the actual calculated day number
 
-// Function to update the poem and hash
+/**
+ * Updates the displayed poem and its SHA-256 hash
+ * @param {number} dayNumber - The current day number (1-366)
+ * @returns {void}
+ */
 function updatePoemAndHash(dayNumber) {
     let phraseIndex = (dayNumber - 1) % loveDB.length; // Prevent out-of-range errors
     let phrase0 = loveDB[phraseIndex]; // Get the phrase based on day number
@@ -29,6 +34,10 @@ function updatePoemAndHash(dayNumber) {
         hash.innerHTML = digest;
     }).catch(function (error) {
         console.error("Error computing SHA-256 hash:", error);
+        document.getElementById("hash2").textContent = "Error generating hash";
+        document.getElementById("lovedb").textContent = "Unable to load daily text";
+        document.getElementById("hash2").textContent = "Error generating hash";
+        document.getElementById("lovedb").textContent = "Unable to load daily text";
     });
 }
 
